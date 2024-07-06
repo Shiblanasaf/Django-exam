@@ -23,13 +23,13 @@ class jobregview(View):
             name=(form_data.cleaned_data.get('name'))
             ag=(form_data.cleaned_data.get('age'))
             ph=(form_data.cleaned_data.get('phone'))
-            pl=(form_data.cleaned_data.get('place'))
+            ds=(form_data.cleaned_data.get('designation'))
             em=(form_data.cleaned_data.get('email'))
-            JobForm.objects.create(name=name,age=ag,phone=ph,place=pl,email=em)
-            # return HttpResponse("submitted")
+            Jobs.objects.create(name=name,age=ag,phone=ph,designation=ds,email=em)
+            
             return redirect('uhome')
         print(form_data.errors)
-        # return HttpResponse("invalid user input")
+
         return render(request,"jobreg.html",{"form":form_data})
     
 
@@ -39,4 +39,14 @@ class JobListView(View):
         data=Jobs.objects.all
         print(data)
         return render(request,"joblist.html",{"jobs":data})
+    
+
+class JobRemoveView(View):
+    def get(self,request,*args,**kwargs):
+    
+    
+        pid=kwargs.get('jid')
+        job=Jobs.objects.get(id='jid')
+        job.delete()
+        return redirect('jblist')
     
